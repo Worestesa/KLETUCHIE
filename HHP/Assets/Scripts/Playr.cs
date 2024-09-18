@@ -5,10 +5,20 @@ using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class Playr : MonoBehaviour
 {
+    private Camera cam;
     public float Speed;
     public Rigidbody2D Body;
+    void Start()
+    {
+        cam = Camera.main;
+    }
     void Update()
     {
+        Vector3 mousePos = cam.ScreenToWorldPoint(Input.mousePosition);
+        mousePos.z = transform.position.z;
+
+        // Ориентируем персонажа к курсору мыши
+        transform.up = mousePos - transform.position;
         if (Input.GetKey(KeyCode.A))
         {
             transform.position -= new Vector3(Speed * Time.deltaTime, 0, 0);
@@ -25,5 +35,6 @@ public class Playr : MonoBehaviour
         {
             transform.position += new Vector3(0, Speed * Time.deltaTime, 0);
         }
+
     }
 }
