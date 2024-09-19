@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 public class EnemyBehaviour : MonoBehaviour
 {
+    [SerializeField] float TimeDamage;
+    float timeColdoun;
     public Transform player;
     public float movementSpeed = 5f;
     public float attackRadius = 1.5f;
@@ -45,5 +47,18 @@ public class EnemyBehaviour : MonoBehaviour
     {
         // Реализуйте здесь логику атаки игрока
         Debug.Log("Атакуем игрока!");
+    }
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.transform.GetComponent<HPPlaeyr>() != null)
+        {
+            Debug.Log("HI!!!");
+            timeColdoun = timeColdoun + 1 / 50f;
+            if (timeColdoun > TimeDamage)
+            {
+                timeColdoun = 0;
+                collision.transform.GetComponent<HPPlaeyr>().damage(20);
+            }
+        }
     }
 }

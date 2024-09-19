@@ -8,6 +8,8 @@ public class Playr : MonoBehaviour
     private Camera cam;
     public float Speed;
     public Rigidbody2D Body;
+    public PauseGame pg;
+    public float HP;
     void Start()
     {
         cam = Camera.main;
@@ -15,10 +17,14 @@ public class Playr : MonoBehaviour
     void Update()
     {
         Vector3 mousePos = cam.ScreenToWorldPoint(Input.mousePosition);
-        mousePos.z = transform.position.z;
+        if (!pg.isPaused)
+        {
+            mousePos.z = transform.position.z;
+            transform.up = mousePos - transform.position;
+        }
+        
 
         // Ориентируем персонажа к курсору мыши
-        transform.up = mousePos - transform.position;
         if (Input.GetKey(KeyCode.A))
         {
             transform.position -= new Vector3(Speed * Time.deltaTime, 0, 0);
@@ -36,5 +42,12 @@ public class Playr : MonoBehaviour
             transform.position += new Vector3(0, Speed * Time.deltaTime, 0);
         }
 
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.transform.GetComponent<HPPlaeyr>() != null)
+        {
+            collision.transform.GetComponent<HPPlaeyr>().damage(20);
+        }
     }
 }

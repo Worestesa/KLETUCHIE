@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PauseGame : MonoBehaviour
 {
-    private bool isPaused = false;
+    public bool isPaused = false;
 
     void Update()
     {
@@ -25,13 +25,11 @@ public class PauseGame : MonoBehaviour
     {
         Time.timeScale = 0;
         isPaused = true;
-        Debug.Log("Игра была поставлена на паузу.");
     }
 
     void ResumeGame()
     {
         Time.timeScale = 1;
         isPaused = false;
-        Debug.Log("Игра была снята с паузы.");
     }
 }
