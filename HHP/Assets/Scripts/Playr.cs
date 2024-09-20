@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static UnityEngine.RuleTile.TilingRuleOutput;
+using UnityEngine.SceneManagement;
 
 public class Playr : MonoBehaviour
 {
@@ -24,7 +25,6 @@ public class Playr : MonoBehaviour
         }
         
 
-        // Ориентируем персонажа к курсору мыши
         if (Input.GetKey(KeyCode.A))
         {
             transform.position -= new Vector3(Speed * Time.deltaTime, 0, 0);
@@ -41,13 +41,18 @@ public class Playr : MonoBehaviour
         {
             transform.position += new Vector3(0, Speed * Time.deltaTime, 0);
         }
+        if (HP <= 0)
+        {
+            SceneManager.LoadScene("SampleScene");
+        }
 
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.transform.GetComponent<HPPlaeyr>() != null)
+        if (collision.gameObject.tag == "Enemy")
         {
-            collision.transform.GetComponent<HPPlaeyr>().damage(20);
+            HP -= 20;
         }
     }
+
 }

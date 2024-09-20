@@ -4,29 +4,30 @@ using UnityEngine;
 
 public class Spawner : MonoBehaviour
 {
-    [SerializeField] private GameObject prefab;
-    [SerializeField] float radius = 50;
-    [SerializeField] float cooldown = 0.5f;
+    public GameObject[] enemy;
+    public GameObject[] spawned;
+
+    private int rand;
+    private int randPosition;
+    public float startTimeBtwSpawns;
+    private float timeBtwSpawns;
 
     void Start()
     {
-        StartCoroutine(SpawnCoroutine());
+        timeBtwSpawns = startTimeBtwSpawns;
     }
-
-    void Spawn()
+    void Update()
     {
-        GameObject buf = Instantiate(prefab);
-        float x = Random.Range(-radius, radius);
-        float y = Random.Range(-radius, radius);
-        buf.transform.position = transform.position + new Vector3(x, y, 0);
-    }
-
-    IEnumerator SpawnCoroutine()
-    {
-        while (true)
+        if(timeBtwSpawns <= 0)
         {
-            Spawn();
-            yield return new WaitForSeconds(cooldown);
+            rand = Random.Range(0, enemy.Length);
+            randPosition = Random.Range(0, spawned.Length);
+            Instantiate(enemy[rand], spawned[randPosition].transform.position, Quaternion.identity);
+            timeBtwSpawns = startTimeBtwSpawns;
+        }
+        else
+        {
+            timeBtwSpawns -= Time.deltaTime;
         }
     }
 }

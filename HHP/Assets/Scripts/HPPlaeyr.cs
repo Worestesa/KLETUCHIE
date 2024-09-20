@@ -6,19 +6,19 @@ using UnityEngine.UI;
 
 public class HPPlaeyr : MonoBehaviour
 {
-    [SerializeField] private float HP = 100;
-    [SerializeField] private Image HPBar;
-    public void damage(float DPS)
+    public Playr playr;
+
+    Image HPbar;
+    public float maxHealth = 100f;
+    void Start()
     {
-        HP = HP - DPS;
-        HPBar.fillAmount = HP / 100;
-        if (HP <= 0)
-        {
-            Dead();
-        }
+        HPbar = GetComponent<Image>();
+        maxHealth = playr.HP;
     }
-    private void Dead()
+
+    void Update()
     {
-        SceneManager.LoadScene("SampleScene");
+        HPbar.fillAmount = playr.HP / maxHealth;
     }
+
 }
